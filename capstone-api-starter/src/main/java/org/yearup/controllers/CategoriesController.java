@@ -1,6 +1,7 @@
 package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.data.CategoryDao;
 import org.yearup.data.ProductDao;
@@ -25,10 +26,11 @@ public class CategoriesController
 
     // add the appropriate annotation for a get action
     @GetMapping()
-    public List<Category> getAll()
-    {
-        // find and return all categories
-        return null;
+    public ResponseEntity<List<Category>> getAll(@RequestParam(required = false) String search) {
+        if (search != null && !search.trim().isEmpty()) {
+            return ResponseEntity.ok(categoryDao.getAllCategories());
+        }
+        return ResponseEntity.ok(categoryDao.getAllCategories());
     }
 
     // add the appropriate annotation for a get action
