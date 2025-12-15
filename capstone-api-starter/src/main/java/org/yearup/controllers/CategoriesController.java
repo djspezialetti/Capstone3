@@ -1,5 +1,6 @@
 package org.yearup.controllers;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,6 @@ public class CategoriesController {
         return null;
     }
 
-    // add annotation to call this method for a POST action
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
@@ -64,15 +64,21 @@ public class CategoriesController {
         }
     }
 
-    // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
-    public void updateCategory(@PathVariable int id, @RequestBody Category category)
-    {
-        // update the category by id
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
+        try {
+            Category updated = categoryDao.update(id, category);
+            if (updated == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-
-    // add annotation to call this method for a DELETE action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("{id}")
