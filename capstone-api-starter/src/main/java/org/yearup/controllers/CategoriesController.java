@@ -11,6 +11,7 @@ import org.yearup.data.ProductDao;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,10 +47,17 @@ public class CategoriesController {
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
     @GetMapping("/categories/{categoryId}/products")
-    public List<Product> getProductsById(@PathVariable int categoryId)
-    {
-        // get a list of product by categoryId
-        return null;
+    public ResponseEntity<List<Product>> getProductsById(@PathVariable int categoryId) {
+        List<Product> productList = new ArrayList<>();
+        Product product = productDao.getById(categoryId);
+        if (product == null) {
+            return  ResponseEntity.notFound().build();
+        }
+        // need to see if this is the correct way to go about this
+        else {
+            productList.add(product);
+            return ResponseEntity.ok(productList);
+        }
     }
 
     // add annotation to ensure that only an ADMIN can call this function
