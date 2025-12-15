@@ -99,7 +99,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting category", e);
+            throw new RuntimeException("Error deleting category...", e);
         }
     }
 
@@ -110,13 +110,13 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String description = row.getString("description");
 
         Category category = new Category()
-        {{
+        {
+            {
             setCategoryId(categoryId);
             setName(name);
             setDescription(description);
-        }};
-
+            }
+        };
         return category;
     }
-
 }
