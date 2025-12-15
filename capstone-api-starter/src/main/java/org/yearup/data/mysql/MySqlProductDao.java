@@ -36,7 +36,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             statement.setBigDecimal(3, minPrice);
             // updated below to include maxPrice() since it wasn't being used before
             // not sure if the query needs updated or if it was fine before
-            statement.setBigDecimal(4, maxPrice);
+            statement.setBigDecimal(4, minPrice);
             statement.setString(5, subCategory);
             statement.setString(6, subCategory);
 
