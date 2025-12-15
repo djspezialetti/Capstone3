@@ -27,17 +27,20 @@ public class CategoriesController
     // add the appropriate annotation for a get action
     @GetMapping()
     public ResponseEntity<List<Category>> getAll(@RequestParam(required = false) String search) {
-        if (search != null && !search.trim().isEmpty()) {
-            return ResponseEntity.ok(categoryDao.getAllCategories());
-        }
+//        if (search != null && !search.trim().isEmpty()) {
+//            return ResponseEntity.ok(categoryDao.getAllCategories());
+//        }
         return ResponseEntity.ok(categoryDao.getAllCategories());
     }
 
     // add the appropriate annotation for a get action
-    public Category getById(@PathVariable int id)
-    {
-        // get the category by id
-        return null;
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<Category> getById(@PathVariable int id) {
+        Category category = categoryDao.getById(id);
+        if (category == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(category);
     }
 
     // the url to return all products in category 1 would look like this
