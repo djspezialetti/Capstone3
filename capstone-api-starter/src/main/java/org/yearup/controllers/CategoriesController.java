@@ -30,7 +30,8 @@ public class CategoriesController {
     @GetMapping()
     public ResponseEntity<List<Category>> getAll(@RequestParam(required = false) String search) {
         if (search != null && !search.trim().isEmpty()) {
-            return ResponseEntity.ok(categoryDao.getAllCategories());
+            return ResponseEntity.notFound().build();
+            //return ResponseEntity.ok(categoryDao.getAllCategories());
         }
         return ResponseEntity.ok(categoryDao.getAllCategories());
     }
@@ -51,14 +52,12 @@ public class CategoriesController {
         if (product == null) {
             return  ResponseEntity.notFound().build();
         }
-        // need to see if this is the correct way to go about this
         else {
             productList.add(product);
             return ResponseEntity.ok(productList);
         }
     }
 
-    // add annotation to ensure that only an ADMIN can call this function
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
@@ -70,7 +69,6 @@ public class CategoriesController {
         }
     }
 
-    // add annotation to ensure that only an ADMIN can call this function
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
@@ -85,7 +83,6 @@ public class CategoriesController {
         }
     }
 
-    // add annotation to ensure that only an ADMIN can call this function
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
