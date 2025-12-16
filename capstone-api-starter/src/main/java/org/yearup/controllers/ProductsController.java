@@ -53,7 +53,7 @@ public class ProductsController {
     }
 
     @PostMapping()
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Product addProduct(@RequestBody Product product) {
         try {
             return productDao.create(product);
@@ -63,7 +63,7 @@ public class ProductsController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         try {
             productDao.create(product);
@@ -73,7 +73,7 @@ public class ProductsController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable int id) {
         try {
             var product = productDao.getById(id);

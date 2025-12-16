@@ -44,8 +44,6 @@ public class CategoriesController {
         return ResponseEntity.ok(category);
     }
 
-    // the url to return all products in category 1 would look like this
-    // https://localhost:8080/categories/1/products
     @GetMapping("/categories/{categoryId}/products")
     public ResponseEntity<List<Product>> getProductsById(@PathVariable int categoryId) {
         List<Product> productList = new ArrayList<>();
@@ -62,7 +60,7 @@ public class CategoriesController {
 
     // add annotation to ensure that only an ADMIN can call this function
     @PostMapping()
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         try {
             Category created = categoryDao.create(category);
@@ -74,7 +72,7 @@ public class CategoriesController {
 
     // add annotation to ensure that only an ADMIN can call this function
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
         try {
             Category updated = categoryDao.update(id, category);
@@ -89,7 +87,7 @@ public class CategoriesController {
 
     // add annotation to ensure that only an ADMIN can call this function
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
         boolean deleted = categoryDao.delete(id);
         if (!deleted) {
