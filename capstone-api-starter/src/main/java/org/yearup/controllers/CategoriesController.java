@@ -61,8 +61,8 @@ public class CategoriesController {
     }
 
     // add annotation to ensure that only an ADMIN can call this function
+    @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         try {
             Category created = categoryDao.create(category);
@@ -73,8 +73,8 @@ public class CategoriesController {
     }
 
     // add annotation to ensure that only an ADMIN can call this function
+    @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
         try {
             Category updated = categoryDao.update(id, category);
@@ -88,8 +88,8 @@ public class CategoriesController {
     }
 
     // add annotation to ensure that only an ADMIN can call this function
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
         boolean deleted = categoryDao.delete(id);
         if (!deleted) {
