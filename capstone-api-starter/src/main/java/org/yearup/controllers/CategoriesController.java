@@ -28,7 +28,6 @@ public class CategoriesController {
     }
 
     @GetMapping()
-    @PreAuthorize("permitAll()")
     public ResponseEntity<List<Category>> getAll(@RequestParam(required = false) String search) {
         if (search != null && !search.trim().isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -37,10 +36,9 @@ public class CategoriesController {
         return ResponseEntity.ok(categoryDao.getAllCategories());
     }
 
-    @GetMapping("/categories/{id}")
-    @PreAuthorize("permitAll()")
-    public ResponseEntity<Category> getById(@PathVariable int categoryId) {
-        Category category = categoryDao.getById(categoryId);
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getById(@PathVariable int id) {
+        Category category = categoryDao.getById(id);
         if (category == null) {
             return ResponseEntity.notFound().build();
         }
@@ -48,7 +46,6 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/{categoryId}/products")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<List<Product>> getProductsById(@PathVariable int categoryId) {
         List<Product> productList = new ArrayList<>();
         Product product = productDao.getById(categoryId);
@@ -72,11 +69,11 @@ public class CategoriesController {
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{categoryId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@PathVariable int categoryId, @RequestBody Category category) {
         try {
-            Category updated = categoryDao.update(id, category);
+            Category updated = categoryDao.update(categoryId, category);
             if (updated == null) {
                 return ResponseEntity.notFound().build();
             }
@@ -86,10 +83,10 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{categoryId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
-        boolean deleted = categoryDao.delete(id);
+    public ResponseEntity<Void> deleteCategory(@PathVariable int categoryId) {
+        boolean deleted = categoryDao.delete(categoryId);
         if (!deleted) {
             return ResponseEntity.notFound().build();
         }
