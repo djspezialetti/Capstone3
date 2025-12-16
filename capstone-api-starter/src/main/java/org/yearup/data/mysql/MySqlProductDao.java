@@ -28,7 +28,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         categoryId = categoryId == null ? -1 : categoryId;
         minPrice = minPrice == null ? new BigDecimal("-1") : minPrice;
         maxPrice = maxPrice == null ? new BigDecimal("-1") : maxPrice;
-        subCategory = subCategory == null ? "" : subCategory;
+        subCategory = subCategory == null ? "" : subCategory.trim();
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
