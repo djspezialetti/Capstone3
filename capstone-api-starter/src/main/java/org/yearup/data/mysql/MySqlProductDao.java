@@ -16,6 +16,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         super(dataSource);
     }
 
+    // fix this method
     @Override
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory) {
         List<Product> products = new ArrayList<>();
