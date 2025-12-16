@@ -128,7 +128,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
     }
 
     @Override
-    public void update(int productId, Product product) {
+    public Product update(int productId, Product product) {
         String sql = "UPDATE products" +
                 " SET name = ? " +
                 "   , price = ? " +
@@ -152,9 +152,13 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             statement.setBoolean(8, product.isFeatured());
             statement.setInt(9, productId);
 
-            statement.executeUpdate();
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                return null;
+            }
+            return getById(productId);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error updating product", e);
         }
     }
 
