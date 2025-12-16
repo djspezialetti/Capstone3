@@ -28,6 +28,7 @@ public class CategoriesController {
     }
 
     @GetMapping()
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<Category>> getAll(@RequestParam(required = false) String search) {
         if (search != null && !search.trim().isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -37,8 +38,9 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<Category> getById(@PathVariable int id) {
-        Category category = categoryDao.getById(id);
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<Category> getById(@PathVariable int categoryId) {
+        Category category = categoryDao.getById(categoryId);
         if (category == null) {
             return ResponseEntity.notFound().build();
         }
@@ -46,6 +48,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/{categoryId}/products")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<Product>> getProductsById(@PathVariable int categoryId) {
         List<Product> productList = new ArrayList<>();
         Product product = productDao.getById(categoryId);
