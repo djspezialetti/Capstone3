@@ -36,9 +36,9 @@ public class CategoriesController {
         return ResponseEntity.ok(categoryDao.getAllCategories());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getById(@PathVariable int id) {
-        Category category = categoryDao.getById(id);
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<Category> getById(@PathVariable int categoryId) {
+        Category category = categoryDao.getById(categoryId);
         if (category == null) {
             return ResponseEntity.notFound().build();
         }
@@ -69,7 +69,7 @@ public class CategoriesController {
         }
     }
 
-    @PutMapping("{categoryId}")
+    @PutMapping("/{categoryId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> updateCategory(@PathVariable int categoryId, @RequestBody Category category) {
         try {
@@ -83,7 +83,7 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping("{categoryId}")
+    @DeleteMapping("/{categoryId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int categoryId) {
         boolean deleted = categoryDao.delete(categoryId);
