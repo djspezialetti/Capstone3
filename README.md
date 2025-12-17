@@ -1,16 +1,19 @@
 # Capstone3
 
 ### Project Overview
-This program mainly utilizes the Spring Framework and Java to display a custom Videogame Store website. The user can view the website and do the following:
+This program mainly utilizes the Spring Framework and Java to display a custom Video Game Store website. Users can view the website and perform the following actions:
 
-> View the various products on the home page and refine their search by product category or prices via the slider
+* View various products on the home page
+* Refine their search by product category or price using a slider
 
-If the user has an account, they can do the following:
+If the user has an account, they can also:
 
-> Add products to their cart, view their cart, and delete products from their cart
+* Add products to their cart,
+* View their cart
+* Remove products from their cart
 
-It should be noted, that the front-end of this project, the database, and most of the structure of this program was already created. This capstone is intended to highlight my knowledge on the Spring Framework and using a Spring Boot application.
-Some data within the database was altered by myself for a more personalized feeling.
+It should be noted that the front-end of this project, the database, and most of the structure of this program were pre-existing. This capstone is intended to highlight my knowledge on the Spring Framework and developing Spring Boot applications.
+Some data within the database was modified by me to create a more personalized experience.
 
 
 Below are some screenshots of the front-end website and the program running in IntelliJ for a visual reference.
