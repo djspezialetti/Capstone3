@@ -22,7 +22,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String  query = "SELECT category_id, name, description " +
                 "FROM categories;";
 
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet results = statement.executeQuery()) {
 
@@ -41,7 +41,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String  query = "SELECT category_id, name, description " +
                 "FROM categories " +
                 "WHERE category_id = ?;";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, categoryId);
 
@@ -61,7 +61,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String  query = "INSERT INTO categories (category_id, name, description) " +
                 "VALUES (?, ?, ?);";
 
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, category.getCategoryId());
             statement.setString(2, category.getName());
@@ -86,7 +86,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String query = "UPDATE categories " +
                 "SET category_id = ?, name = ?, description = ? " +
                 "WHERE category_id = ?;";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, category.getCategoryId());
