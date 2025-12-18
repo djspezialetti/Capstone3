@@ -24,14 +24,18 @@ Below are some screenshots of the front-end website and the program running in I
 #### Front End HomeScreen
 ![Home Screen](capstone-api-starter/src/main/resources/front-end-homescreen.png "Homescreen Screenshot")
 
-#### Ordering Pizza Screen
-![Order Pizza Screen](src/main/resources/order-pizza-screenshot.png "Order Pizza Screenshot")
+#### Front End Cart
+![Cart](capstone-api-starter/src/main/resources/front-end-cart.png "User Cart")
 
-#### Viewing the Cart
-![View Cart](src/main/resources/view-cart-screenshot.png "View Cart")
+#### Categories Controller
+![Categories Controller](capstone-api-starter/src/main/resources/categories-controller.png "Categories Controller")
 
-#### Example Receipt
-![Example Receipt](src/main/resources/receipt-example-screenshot.png "Example Receipt")
+#### Categories Dao
+![Categories Dao](capstone-api-starter/src/main/resources/category-dao.png "Categories Dao")
 
-#### Program Diagram
-![Project Diagram](src/main/resources/pizzeria-diagram.png "Project Diagram")
+
+#### Shopping Cart Controller
+![Shopping Cart Controller](capstone-api-starter/src/main/resources/shopping-cart-controller.png "Shopping Cart Controller")
+
+#### Shopping Cart Dao
+![Shopping Cart Dao](capstone-api-starter/src/main/resources/shopping-cart-dao.png "Shopping Cart Dao")
