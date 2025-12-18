@@ -4,11 +4,9 @@ import org.yearup.models.ShoppingCart;
 
 public interface ShoppingCartDao {
     ShoppingCart getByUserId(int userId);
-    ShoppingCart addProductToCart(int userId, int productId);
+    void addProduct(int userId, int productId);
 //    ShoppingCart removeProduct(int productId);
 
-    // need to get the cart
-    // need to add stuff to the cart
     // need to delete stuff from the cart
     // optional: update stuff in the cart with @PutMapping
 }
