@@ -21,8 +21,8 @@ Below are some screenshots of the front-end website and the program running in I
 
 ### Program Screenshots
 
-#### Home Screen / Main Menu
-![Home Screen](src/main/resources/homescreen-screenshot.png "Homescreen Screenshot")
+#### Front End HomeScreen
+![Home Screen](capstone-api-starter/src/main/resources/front-end-homescreen.png "Homescreen Screenshot")
 
 #### Ordering Pizza Screen
 ![Order Pizza Screen](src/main/resources/order-pizza-screenshot.png "Order Pizza Screenshot")
