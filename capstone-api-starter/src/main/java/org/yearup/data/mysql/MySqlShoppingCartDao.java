@@ -1,16 +1,14 @@
 package org.yearup.data.mysql;
 
 import org.springframework.stereotype.Component;
-import org.yearup.data.ProductDao;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
@@ -20,83 +18,79 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
     @Override
     public ShoppingCart getByUserId(int userId) {
-        String  query = "SELECT user_id, product_id, quantity " +
-                "FROM shopping_cart " +
+        ShoppingCart shoppingCart = new ShoppingCart();
+
+        String  query = "SELECT sc.user_id, sc.product_id, sc.quantity, " +
+                "p.name, p.price, p.description, p.category_id, p.image_url " +
+                "FROM shopping_cart AS sc " +
+                "JOIN products AS p ON (p.product_id = sc.product_id) " +
                 "WHERE user_id = ?;";
+
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
-            System.out.println("userid in query: " + userId);
-//            System.out.println("productid in query: ");
-//            System.out.println("userid in query: " + userId);
 
             try (ResultSet results = statement.executeQuery()) {
-                if (results.next()) {
-                    System.out.println("Results in query " + results);
-                    return mapRow(results);
+                while (results.next()) {
+                    ShoppingCartItem cartItem = mapRow(results);
+                    shoppingCart.add(cartItem);
+                    System.out.println("shopping cart items: " + shoppingCart);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error getting shopping cart by User ID", e);
         }
-        return null;
+        return shoppingCart;
     }
 
-//    @Override
-//    public Product addProductToCart(Product product) {
-//        String  query = "INSERT INTO shopping_cart (user_id, product_id, quantity) " +
-//                "VALUES (?, ?, ?);";
-//        try (Connection connection = getConnection();
-//             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-//            statement.setInt(1, product.getProductId());
-//            statement.setInt(2, product.getProductId());
-//            statement.setInt(3, product.);
-//
-//            statement.executeUpdate();
-//
-//            try (ResultSet keys = statement.getGeneratedKeys()) {
-//                if (keys.next()) {
-//                    int user_id = keys.getInt(1);
-//                    return getByUserId(user_id);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Error creating category...", e);
-//        }
-//        return null;
-//    }
+    @Override
+    public void addProduct(int userId, int productId) {
+        String  query = "INSERT INTO shopping_cart (user_id, product_id, quantity) " +
+                "VALUES ((SELECT user_id FROM users WHERE user_id = ?), ?, ?);";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, productId);
+            statement.setInt(3, 1);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Product added to cart");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating category...", e);
+        }
+    }
+
 //
 //    @Override
 //    public ShoppingCart removeProduct(int productId) {
 //        return null;
 //    }
 
-    private ShoppingCart mapRow(ResultSet row) throws SQLException {
-        int userId = row.getInt("user_id");
-        int productId = row.getInt("product_id");
-        int quantity = row.getInt("quantity");
-        System.out.println("userId in mapRow: " + userId);
-        System.out.println("productId in mapRow: " + productId);
-        System.out.println("quantity in mapRow: " + quantity);
+    private ShoppingCartItem mapRow(ResultSet row) throws SQLException {
+        int productId = row.getInt("sc.product_id");
+        int quantity = row.getInt("sc.quantity");
+        String name = row.getString("p.name");
+        BigDecimal price = row.getBigDecimal("p.price");
+        String description = row.getString("p.description");
+        int categoryId = row.getInt("p.category_id");
+        String imageUrl = row.getString("p.image_url");
 
-        Product product;
-        ProductDao productDao = null;
+        Product product = new Product();
+        product.setProductId(productId);
+        product.setPrice(price);
+        product.setName(name);
+        product.setDescription(description);
+        product.setCategoryId(categoryId);
+        product.setImageUrl(imageUrl);
 
-        product = productDao.getById(productId);
-        System.out.println("product by ID after the dao: " + product);
+        ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
+        shoppingCartItem.setProduct(product);
+        shoppingCartItem.setQuantity(quantity);
 
-        ShoppingCartItem cartItem = new ShoppingCartItem();
-        cartItem.setProduct(product);
-        System.out.println("shopping cart after product is added: " + cartItem);
-
-        Map<Integer, ShoppingCartItem> shoppingCartItem = new HashMap<>();
-        shoppingCartItem.put(userId, cartItem);
-
-        ShoppingCart shoppingCart = new ShoppingCart() {
-            {
-                setItems(shoppingCartItem);
-            }
-        };
-        return shoppingCart;
+        return shoppingCartItem;
     }
 }

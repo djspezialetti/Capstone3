@@ -9,7 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.ProductDao;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.data.UserDao;
+import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
+import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
 
 import java.security.Principal;
@@ -31,7 +33,6 @@ public class ShoppingCartController {
         this.productDao = productDao;
     }
 
-    // each method in this controller requires a Principal object as a parameter
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ShoppingCart getCart(Principal principal) {
@@ -43,34 +44,29 @@ public class ShoppingCartController {
 
             shoppingCart = shoppingCartDao.getByUserId(userId);
 
-            System.out.println("shopping cart in Controller: " + shoppingCart);
-
             return shoppingCart;
         } catch(Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "error returning shopping cart.");
         }
     }
 
-    // add a POST method to add a product to the cart - the url should be
-    // https://localhost:8080/cart/products/15 (15 is the productId to be added
-//    @PostMapping("/cart/products/{productId}")
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-//    public ShoppingCart addProductToCart(Principal principal, int productId) {
-//        ShoppingCart shoppingCart;
-//        try {
-//            String userName = principal.getName();
-//            User user = userDao.getByUserName(userName);
-//            int userId = user.getId();
-//
-//            shoppingCart = shoppingCartDao.getByUserId(userId);
-//            if (shoppingCart == null) {
-//                return null;
-//            }
-//            return shoppingCart;
-//        } catch(Exception e) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-//        }
-//    }
+    @PostMapping("/products/{productId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public void addProductToCart(Principal principal, @PathVariable int productId) {
+        //ShoppingCart shoppingCart;
+        try {
+            String userName = principal.getName();
+            User user = userDao.getByUserName(userName);
+            int userId = user.getId();
+
+            shoppingCartDao.addProduct(userId, productId);
+
+            //System.out.println("controller cart after added product: " + shoppingCart);
+
+        } catch(Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "error adding item to cart.");
+        }
+    }
 
 
     // add a PUT method to update an existing product in the cart - the url should be
