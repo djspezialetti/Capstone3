@@ -181,10 +181,10 @@ VALUES  ('Xbox Wireless Controller', 59.99, 3, 'Official wireless controller for
         ('VR Headset Stand', 24.99, 3, 'Display stand for VR headsets and controllers.', 'vr-stand.jpg', 40, 0, 'Accessory');
 
 
-INSERT INTO products (name, price, category_id, description, image_url, stock, featured, subcategory)
-VALUES  ('Xbox Wireless Controller', 64.99, 3, 'Official Xbox wireless controller with enhanced grip.', 'xbox-controller.jpg', 50, 0, 'Controller'),
-        ('Xbox Wireless Controller', 64.99, 3, 'Premium Xbox controller for competitive gaming.', 'xbox-controller.jpg', 50, 0, 'Controller'),
-        ('Gaming Mousepad XL', 19.99, 3, 'Professional XL mousepad for gaming.', 'xl-mousepad.jpg', 100, 1, 'Peripheral');
+-- INSERT INTO products (name, price, category_id, description, image_url, stock, featured, subcategory)
+-- VALUES  ('Xbox Wireless Controller', 64.99, 3, 'Official Xbox wireless controller with enhanced grip.', 'xbox-controller.jpg', 50, 0, 'Controller'),
+--         ('Xbox Wireless Controller', 64.99, 3, 'Premium Xbox controller for competitive gaming.', 'xbox-controller.jpg', 50, 0, 'Controller'),
+--         ('Gaming Mousepad XL', 19.99, 3, 'Professional XL mousepad for gaming.', 'xl-mousepad.jpg', 100, 1, 'Peripheral');
 
 -- add shopping cart items
 INSERT INTO shopping_cart (user_id, product_id, quantity)
