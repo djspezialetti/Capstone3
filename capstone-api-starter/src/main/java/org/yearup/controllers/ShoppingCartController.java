@@ -43,34 +43,34 @@ public class ShoppingCartController {
 
             shoppingCart = shoppingCartDao.getByUserId(userId);
 
-            System.out.println("shopping cart in Controller: " + shoppingCart);
+            System.out.println("shopping cart in Controller: " + shoppingCart.toString());
 
             return shoppingCart;
         } catch(Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "error returning shopping cart.");
         }
     }
 
     // add a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15 (15 is the productId to be added
-//    @PostMapping("/cart/products/{productId}")
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-//    public ShoppingCart addProductToCart(Principal principal, int productId) {
-//        ShoppingCart shoppingCart;
-//        try {
-//            String userName = principal.getName();
-//            User user = userDao.getByUserName(userName);
-//            int userId = user.getId();
-//
-//            shoppingCart = shoppingCartDao.getByUserId(userId);
-//            if (shoppingCart == null) {
-//                return null;
-//            }
-//            return shoppingCart;
-//        } catch(Exception e) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-//        }
-//    }
+    @PostMapping("/cart/products/{productId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public ShoppingCart addProductToCart(Principal principal) {
+        ShoppingCart shoppingCart;
+        try {
+            String userName = principal.getName();
+            User user = userDao.getByUserName(userName);
+            int userId = user.getId();
+
+            shoppingCart = shoppingCartDao.getByUserId(userId);
+            if (shoppingCart == null) {
+                return null;
+            }
+            return shoppingCart;
+        } catch(Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
+    }
 
 
     // add a PUT method to update an existing product in the cart - the url should be
